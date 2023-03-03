@@ -1,0 +1,3 @@
+[submodule "sing-sword"]
+	path = sing-sword
+	url = git@github.com:vincentliu77/sing-sword.git
