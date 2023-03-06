@@ -76,7 +76,7 @@
                     outboundJson.map(newOutbound);
                 }
                 else {
-                    newOutbound(JSON.parse(outboundJson));  
+                    newOutbound(outboundJson);  
                 }
             }
         });
