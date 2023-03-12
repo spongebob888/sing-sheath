@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    permissions: read-all|write-all
+    permissions: write-all
     strategy:
       fail-fast: false
       matrix:
