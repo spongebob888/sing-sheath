@@ -27,11 +27,27 @@
   async function addSelectorOutbounds() {
     let configJson = refJsonEditor.get().json;
     let patchContent = [];
-    let outboundTags = configJson.outbounds
+    let outboundProxyTags = configJson.outbounds
       .filter(
-        (out) => out.tag && out.type != "selector" && out.type != "shadowtls"
+        (out) => out.tag 
+        && out.type != "selector" 
+        && out.type != "shadowtls"
+        && out.type != "dns"
+        && out.type != "direct"
+        && out.type != "block"
       )
       .map((out) => out.tag);
+
+    let outboundNonproxyTags = configJson.outbounds
+      .filter(
+        (out) => out.tag 
+        && (
+          out.type == "direct" ||
+          out.type == "block"
+        )
+      )
+      .map((out) => out.tag);
+    let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
     let selectorIndex = configJson.outbounds.findIndex(
       (out) => out.type == "selector"
     );
