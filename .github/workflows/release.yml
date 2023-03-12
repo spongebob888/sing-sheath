@@ -18,6 +18,10 @@ jobs:
         with:
           submodules: recursive
 
+        # Remove submodule .git directory or a build error occurs
+      - name: Remove submodule .git directory
+        run: rm -rf ./sing-sword/.git
+
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
         # You can remove libayatana-appindicator3-dev if you don't use the system tray feature.
