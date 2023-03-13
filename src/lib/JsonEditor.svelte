@@ -30,6 +30,11 @@
   });
 
   function checkInboundSwitch(content) {
+    if (!content.json || !content.json.inbounds){
+      mixedModeValue = false;
+      tunModeValue = false;
+      return;
+    }
     let tunIndex = content.json.inbounds.findIndex(
         (out) => out.type == "tun"
         );
@@ -37,7 +42,7 @@
             tunModeValue = true;
         }
         else{
-            tunModeValue = false
+            tunModeValue = false;
         }
 
         let mixedIndex = content.json.inbounds.findIndex(
@@ -47,7 +52,7 @@
             mixedModeValue = true;
         }
         else{
-            mixedModeValue = false
+            mixedModeValue = false;
         }
   }
   function handleChange(

@@ -160,7 +160,9 @@
         let configJson = JSON.parse(configStr);
         let content = refJsonEditor.get();
         let contentJson = content.json;
-        contentJson.outbounds.reduce(
+        if(contentJson && contentJson.outbounds)
+        {     
+          contentJson.outbounds.reduce(
           (acc,val)=>{
             if(acc.every((ele)=>ele.tag != val.tag)){
               acc.push(val);
@@ -168,11 +170,12 @@
             return acc;
           },
           configJson.outbounds
-        )
-        content.json = configJson;
+         )
+        }
+        content.json = {...configJson};
+        content.text=undefined;
         refJsonEditor.set(content);
         checkInboundSwitch(content);
-        console.log(configJson);
       })
       .catch((error) => alert(error));
   }
