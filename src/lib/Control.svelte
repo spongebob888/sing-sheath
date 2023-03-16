@@ -133,27 +133,6 @@
     }
     refJsonEditor.scrollTo(["inbounds"]);
   }
-  function checkInboundSwitch(content) {
-    let tunIndex = content.json.inbounds.findIndex(
-        (out) => out.type == "tun"
-        );
-        if (tunIndex >= 0){
-            tunModeValue = true;
-        }
-        else{
-            tunModeValue = false
-        }
-
-        let mixedIndex = content.json.inbounds.findIndex(
-        (out) => out.type == "mixed"
-        );
-        if (mixedIndex >= 0){
-            mixedModeValue = true;
-        }
-        else{
-            mixedModeValue = false
-        }
-  }
   async function resetConfig(){
     await invoke("get_default_config")
       .then((configStr) => {
@@ -172,10 +151,14 @@
           configJson.outbounds
          )
         }
-        content.json = {...configJson};
-        content.text=undefined;
-        refJsonEditor.set(content);
-        checkInboundSwitch(content);
+        let patchContent = [
+          {
+            op: "replace",
+            path: "$",
+            value: configJson,
+          },
+        ];
+        refJsonEditor.patch(patchContent);
       })
       .catch((error) => alert(error));
   }
