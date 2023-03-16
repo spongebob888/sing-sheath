@@ -30,6 +30,11 @@
   });
 
   function checkInboundSwitch(content) {
+    if (!content.json || !content.json.inbounds){
+      mixedModeValue = false;
+      tunModeValue = false;
+      return;
+    }
     let tunIndex = content.json.inbounds.findIndex(
         (out) => out.type == "tun"
         );
@@ -37,7 +42,7 @@
             tunModeValue = true;
         }
         else{
-            tunModeValue = false
+            tunModeValue = false;
         }
 
         let mixedIndex = content.json.inbounds.findIndex(
@@ -47,7 +52,7 @@
             mixedModeValue = true;
         }
         else{
-            mixedModeValue = false
+            mixedModeValue = false;
         }
   }
   function handleChange(
@@ -69,14 +74,19 @@
 </script>
 
 
-<div class="editor">
-  <JSONEditor bind:this={refJsonEditor} {content} onChange={handleChange} />
+<div class="editor jse-theme-dark">
+  <JSONEditor bind:this={refJsonEditor}
+              {content}
+              onChange={handleChange}
+              mainMenuBar={false}
+              navigationBar={true}
+              />
 </div>
 
 <style>
   .editor {
     display: flex;
     height: 70%;
-    margin: 10px;
+    margin: 5px;
   }
 </style>

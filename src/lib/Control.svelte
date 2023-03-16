@@ -27,11 +27,27 @@
   async function addSelectorOutbounds() {
     let configJson = refJsonEditor.get().json;
     let patchContent = [];
-    let outboundTags = configJson.outbounds
+    let outboundProxyTags = configJson.outbounds
       .filter(
-        (out) => out.tag && out.type != "selector" && out.type != "shadowtls"
+        (out) => out.tag 
+        && out.type != "selector" 
+        && out.type != "shadowtls"
+        && out.type != "dns"
+        && out.type != "direct"
+        && out.type != "block"
       )
       .map((out) => out.tag);
+
+    let outboundNonproxyTags = configJson.outbounds
+      .filter(
+        (out) => out.tag 
+        && (
+          out.type == "direct" ||
+          out.type == "block"
+        )
+      )
+      .map((out) => out.tag);
+    let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
     let selectorIndex = configJson.outbounds.findIndex(
       (out) => out.type == "selector"
     );
@@ -117,34 +133,15 @@
     }
     refJsonEditor.scrollTo(["inbounds"]);
   }
-  function checkInboundSwitch(content) {
-    let tunIndex = content.json.inbounds.findIndex(
-        (out) => out.type == "tun"
-        );
-        if (tunIndex >= 0){
-            tunModeValue = true;
-        }
-        else{
-            tunModeValue = false
-        }
-
-        let mixedIndex = content.json.inbounds.findIndex(
-        (out) => out.type == "mixed"
-        );
-        if (mixedIndex >= 0){
-            mixedModeValue = true;
-        }
-        else{
-            mixedModeValue = false
-        }
-  }
   async function resetConfig(){
     await invoke("get_default_config")
       .then((configStr) => {
         let configJson = JSON.parse(configStr);
         let content = refJsonEditor.get();
         let contentJson = content.json;
-        contentJson.outbounds.reduce(
+        if(contentJson && contentJson.outbounds)
+        {     
+          contentJson.outbounds.reduce(
           (acc,val)=>{
             if(acc.every((ele)=>ele.tag != val.tag)){
               acc.push(val);
@@ -152,11 +149,16 @@
             return acc;
           },
           configJson.outbounds
-        )
-        content.json = configJson;
-        refJsonEditor.set(content);
-        checkInboundSwitch(content);
-        console.log(configJson);
+         )
+        }
+        let patchContent = [
+          {
+            op: "replace",
+            path: "$",
+            value: configJson,
+          },
+        ];
+        refJsonEditor.patch(patchContent);
       })
       .catch((error) => alert(error));
   }
