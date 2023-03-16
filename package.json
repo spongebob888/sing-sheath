@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prepare": "node scripts/getcore.mjs && cd node_modules/svelte-jsoneditor/ && npm install && npm run build:svelte && cd ../..",
+    "prepare": "node scripts/getcore.mjs",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "tauri": "tauri"
   },
@@ -17,7 +17,7 @@
     "fs-extra": "^11.1.0",
     "https-proxy-agent": "^5.0.1",
     "node-fetch": "^3.3.0",
-    "svelte-jsoneditor": "github:vincentliu77/svelte-jsoneditor#dev",
+    "svelte-jsoneditor": "npm:@vincentliu77/svelte-jsoneditor@^0.17.1",
     "svelte-switch": "^0.0.5",
     "sveltestrap": "^5.10.0",
     "tar": "^6.1.13"
