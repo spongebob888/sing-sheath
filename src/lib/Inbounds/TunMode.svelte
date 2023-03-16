@@ -1,5 +1,5 @@
 <script>
-    import Switch from "svelte-switch";
+    import { SlideToggle } from '@skeletonlabs/skeleton';
     import { invoke } from "@tauri-apps/api/tauri";
 
 
@@ -97,10 +97,8 @@
         return false;
     }
 
-    function handleChangeTunMode(e) {
-        const { checked } = e.detail;
-        tunModeValue = checked;
-        if (checked) {
+    function handleChangeTunMode() {
+        if (tunModeValue) {
             newTunInbound();
         } else {
             delTunInbound();
@@ -108,5 +106,8 @@
     }
 </script>
 
-<div>Tun Mode</div>
-<Switch on:change={handleChangeTunMode} bind:checked={tunModeValue} />
+<SlideToggle on:change={handleChangeTunMode}
+             bind:checked={tunModeValue}
+             name="tun-toggle">
+  Tun Mode
+             </SlideToggle>

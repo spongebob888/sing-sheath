@@ -167,12 +167,12 @@
 <div style="display:flex; justify-content: center; margin: 0px 8px 8px 0px;">
   <div style="margin: 8px 8px 8px 8px;">
     <div>
-      <button on:click={start}>
+      <button on:click={start} class="btn variant-filled-surface" type="button">
         Restart
       </button>
     </div>
     <div>
-      <button on:click={resetConfig} style="margin: 4px 4px 4px 4px;">
+      <button on:click={resetConfig} class="btn variant-filled-warning" style="margin: 4px 4px 4px 4px;">
         Reset
       </button>
     </div>
@@ -180,22 +180,25 @@
 
   <div style="margin: 8px 8px 8px 8px;">
     <div>
-      <button on:click={expandOutbounds}> outbounds </button>
+      <button on:click={expandOutbounds} class="btn variant-filled">
+        outbounds
+      </button>
     </div>
-    <div style="margin: 4px 4px 4px 4px">
+    <div style="margin: 4px 4px 4px 4px;">
       <Outbounds {refJsonEditor} />
     </div>
   </div>
 
   <div style="margin: 8px 8px 8px 8px;">
-    <button on:click={expandInbounds}> inbounds </button>
-    <Inbounds {refJsonEditor} {mixedModeValue} {tunModeValue}/>
+    <div>
+      <button on:click={expandInbounds} class="btn variant-filled">
+        inbounds
+      </button>
+    </div>
+    <div style="margin: 4px 4px 4px 4px;">
+    <Inbounds {refJsonEditor} {mixedModeValue} {tunModeValue} />
+      
+    </div>
   </div>
 </div>
 
-<style>
-  .button-all {
-    display: flex;
-    justify-content: center;
-  }
-</style>

@@ -1,5 +1,5 @@
 <script>
-    import Switch from "svelte-switch";
+    import { SlideToggle } from '@skeletonlabs/skeleton';  
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
 
@@ -85,10 +85,8 @@
         return false;
     }
 
-    async function handleChangeMixed(e) {
-        const { checked } = e.detail;
-        mixedValue = checked;
-        if (checked){
+    async function handleChangeMixed() {
+        if (mixedValue){
             newMixedInbound();
         }
         else {
@@ -99,8 +97,11 @@
     
 </script>
 
-<div>
-    Mixed Inbound
-</div>
-
-<Switch on:change={handleChangeMixed} bind:checked={mixedValue} />
+<SlideToggle
+  on:change={handleChangeMixed}
+  bind:checked={mixedValue}
+  name="mixed-toggle"
+  >
+  Mixed Mode
+</SlideToggle>
+ 

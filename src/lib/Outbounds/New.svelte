@@ -1,12 +1,8 @@
 <script lang="ts">
-    import {
-        Button,
-        Dropdown,
-        DropdownItem,
-        DropdownMenu,
-        DropdownToggle,
-        Styles,
-    } from "sveltestrap";
+    import { popup } from '@skeletonlabs/skeleton';
+    import type { PopupSettings } from '@skeletonlabs/skeleton';
+    import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+
     import {VMESS_OUTBOUND_TEMPLATE} from "./vmess.js";
     import {VLESS_OUTBOUND_TEMPLATE} from "./vless.js";
     import {SHADOWSOCKS_OUTBOUND_TEMPLATE} from "./shadowsocks.js";
@@ -18,6 +14,15 @@
 
 
     export let refJsonEditor;
+
+  let comboValue = "";
+  let popupCombobox: PopupSettings = {
+    event: 'click',
+    target: 'combobox',
+    placement: 'top',
+    // Close the popup when the item is clicked
+    closeQuery: '.listbox-item'
+  };
     function newOutbound(outboundJson){
         let content = refJsonEditor.get();
         let eleNum = content.json.outbounds.length;
@@ -83,18 +88,45 @@
     }
 </script>
 
-<Styles />
+<button class="btn variant-filled w-20" use:popup={popupCombobox}>
+	New
+</button>
 
-<Dropdown>
-    <DropdownToggle caret>New</DropdownToggle>
-    <DropdownMenu>
-        <DropdownItem on:click={newOutboundFromClipboard}> From Clipboard</DropdownItem>
-        <DropdownItem on:click={newVmessOutbound}> Vmess </DropdownItem>
-        <DropdownItem on:click={newShadowsocksOutbound}> Shadowsocks </DropdownItem>
-        <DropdownItem on:click={newHysteriaOutbound}> Hysteria </DropdownItem>
-        <DropdownItem on:click={newTrojanOutbound}> Trojan </DropdownItem>
-        <DropdownItem on:click={newShadowTLSOutbound}> ShadowTLS </DropdownItem>
-        <DropdownItem on:click={newVLESSOutbound}> VLESS </DropdownItem>
-        <DropdownItem on:click={newSocksOutbound}> Socks </DropdownItem>
-    </DropdownMenu>
-</Dropdown>
+
+<div class="card w-36 shadow-xl py-2 top" data-popup="combobox">
+  <!-- Listbox -->
+  <ListBox rounded="rounded-none">
+    <ListBoxItem  bind:group={comboValue} name="medium"  on:click={newOutboundFromClipboard}>
+      From Clipboard
+    </ListBoxItem>
+        <ListBoxItem bind:group={comboValue} name="vemss" value="vemss" on:click={newVmessOutbound}>
+          Vmess
+        </ListBoxItem>
+        <ListBoxItem bind:group={comboValue} value="Shadowsocks" on:click={newShadowsocksOutbound}>
+          Shadowsocks
+        </ListBoxItem>
+        <ListBoxItem  bind:group={comboValue} name="medium" value="Hysteria" on:click={newHysteriaOutbound}>
+          Hysteria
+        </ListBoxItem>
+        <ListBoxItem  bind:group={comboValue} name="medium" value="Trojan" on:click={newTrojanOutbound}>
+          Trojan
+        </ListBoxItem>
+        <ListBoxItem  bind:group={comboValue} name="medium" value="ShadowTLS" on:click={newShadowTLSOutbound}>
+          ShadowTLS
+        </ListBoxItem>
+        <ListBoxItem  bind:group={comboValue} name="medium" value="VLESS" on:click={newVLESSOutbound}>
+          VLESS
+        </ListBoxItem>
+        <ListBoxItem  bind:group={comboValue} name="medium" value="Socks" on:click={newSocksOutbound}>
+          Socks
+        </ListBoxItem>
+  </ListBox>
+  <!-- Arrow -->
+  <div class="arrow bg-surface-100-800-token" />
+</div>
+
+<style>
+  .top {
+    z-index: 1;
+ }
+</style>

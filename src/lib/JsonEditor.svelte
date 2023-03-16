@@ -74,19 +74,20 @@
 </script>
 
 
-<div class="editor jse-theme-dark">
+<div class="editor">
   <JSONEditor bind:this={refJsonEditor}
               {content}
               onChange={handleChange}
               mainMenuBar={false}
               navigationBar={true}
+              class="editor"
               />
 </div>
 
 <style>
   .editor {
-    display: flex;
-    height: 70%;
+    /* display: flex; */
+    height: 70vh;
     margin: 5px;
   }
 </style>
