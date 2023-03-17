@@ -7,8 +7,6 @@
 	export let tunModeValue;
 	export let mixedModeValue;
 
-	let buttonText = 'Restart';
-	let count = 0;
 	let expandedOutboundsDep = 0;
 	let expandedInbounds = false;
 

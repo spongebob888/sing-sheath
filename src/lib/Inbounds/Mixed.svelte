@@ -1,7 +1,6 @@
 <script>
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { invoke } from '@tauri-apps/api/tauri';
-	import { onMount } from 'svelte';
 
 	const MIXED_TEMPLATE = {
 		type: 'mixed',
@@ -30,7 +29,7 @@
 					mixedInbound = MIXED_TEMPLATE;
 				}
 			})
-			.catch((error) => (mixedInbound = MIXED_TEMPLATE));
+			.catch(() => (mixedInbound = MIXED_TEMPLATE));
 		let patchContent = [
 			{
 				op: 'add',

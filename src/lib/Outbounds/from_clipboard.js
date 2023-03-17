@@ -5,6 +5,7 @@ export async function readOutboundFromClipboard() {
 	await readText()
 		.then((text) => {
 			if (text == '') {
+				outboundJson = null;
 			} else {
 				try {
 					outboundJson = JSON.parse(text);

@@ -1,8 +1,6 @@
 <script>
 	import Mixed from './Inbounds/Mixed.svelte';
 	import TunMode from './Inbounds/TunMode.svelte';
-	import { invoke } from '@tauri-apps/api/tauri';
-	import { onMount } from 'svelte';
 
 	export let refJsonEditor;
 

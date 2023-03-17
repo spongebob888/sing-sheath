@@ -40,7 +40,7 @@
 					console.log(tunDefault);
 				}
 			})
-			.catch((error) => (tunInbound = TUN_TEMPLATE));
+			.catch(() => (tunInbound = TUN_TEMPLATE));
 		let patchContent = [
 			{
 				op: 'add',
