@@ -1,6 +1,6 @@
 <script>
-    import New from "./Outbounds/New.svelte"
-    export let refJsonEditor;
+	import New from './Outbounds/New.svelte';
+	export let refJsonEditor;
 </script>
 
-<New refJsonEditor={refJsonEditor}/>
+<New {refJsonEditor} />
