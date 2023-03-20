@@ -10,9 +10,23 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { AppShell } from '@skeletonlabs/skeleton';
 
+	import { Drawer, drawerStore } from '@skeletonlabs/skeleton';
+
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
+<Drawer>
+	<div class="h-full">
+		<object
+			title="clash-ui"
+			type="text/html"
+			data="http://localhost:33211/?host=127.0.0.1&port={$drawerStore.meta.port}#/proxies"
+			width="100%"
+			height="100%"
+			style="overflow:hidden;border:5px"
+		/>
+	</div>
+</Drawer>
 <AppShell>
 	<!-- <svelte:fragment slot="sidebarLeft">Sidebar Left</svelte:fragment> -->
 	<!-- Router Slot -->

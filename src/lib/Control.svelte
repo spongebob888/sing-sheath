@@ -2,6 +2,8 @@
 	import { invoke } from '@tauri-apps/api/tauri';
 	import Outbounds from './Outbounds.svelte';
 	import Inbounds from './Inbounds.svelte';
+	import { drawerStore } from '@skeletonlabs/skeleton';
+	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 
 	export let refJsonEditor;
 	export let tunModeValue;
@@ -79,22 +81,21 @@
 			.map((out) => out.tag);
 
 		let outboundNonproxyTags = configJson.outbounds
-			.filter((out) => out.tag && (out.type == 'direct'))
+			.filter((out) => out.tag && out.type == 'direct')
 			.map((out) => out.tag);
 		let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
 		let autoIndex = configJson.outbounds.findIndex((out) => out.tag == 'auto');
 		let selectorIndex = configJson.outbounds.findIndex((out) => out.tag == 'selector-out');
-
 
 		if (autoIndex == -1) {
 			autoIndex = selectorIndex + 1; // The next position of selector.
 			patchContent.push({
 				op: 'add',
 				path: `/outbounds/${autoIndex}`,
-				value: { 
+				value: {
 					tag: 'auto',
 					type: 'urltest',
-					interval: "24h"
+					interval: '24h'
 				}
 			});
 			console.log('auto outbound not found');
@@ -197,6 +198,20 @@
 			})
 			.catch((error) => alert(error));
 	}
+	function openBoard() {
+		let configJson = refJsonEditor.get().json;
+		let port = configJson?.experimental?.clash_api?.external_controller?.split(':')[1].trim();
+		if (port == null) {
+			alert('empty clash_api port');
+			return;
+		}
+		const drawerSettings: DrawerSettings = {
+			id: 'clash-ui',
+			meta: { port: port }
+		};
+		console.log(drawerSettings);
+		drawerStore.open(drawerSettings);
+	}
 </script>
 
 <div style="display:flex; justify-content: center; margin: 0px 8px 8px 0px;">
@@ -230,6 +245,11 @@
 		</div>
 		<div style="margin: 4px 4px 4px 4px;">
 			<Inbounds {refJsonEditor} {mixedModeValue} {tunModeValue} />
+		</div>
+	</div>
+	<div style="margin: 8px 8px 8px 8px;">
+		<div>
+			<button on:click={openBoard} class="btn variant-filled"> board </button>
 		</div>
 	</div>
 </div>
