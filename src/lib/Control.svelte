@@ -13,6 +13,7 @@
 	async function start() {
 		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
+		await addAutoOutbounds();
 		await addSelectorOutbounds();
 		await addDnsRule();
 		let content = refJsonEditor.get();
@@ -41,7 +42,7 @@
 			.filter((out) => out.tag && (out.type == 'direct' || out.type == 'block'))
 			.map((out) => out.tag);
 		let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
-		let selectorIndex = configJson.outbounds.findIndex((out) => out.type == 'selector');
+		let selectorIndex = configJson.outbounds.findIndex((out) => out.tag == 'selector-out');
 		console.log(selectorIndex);
 		if (selectorIndex == -1) {
 			patchContent.push({
@@ -61,6 +62,53 @@
 
 		refJsonEditor.patch(patchContent);
 	}
+	async function addAutoOutbounds() {
+		let configJson = refJsonEditor.get().json;
+		let patchContent = [];
+		let outboundProxyTags = configJson.outbounds
+			.filter(
+				(out) =>
+					out.tag &&
+					out.type != 'selector' &&
+					out.type != 'shadowtls' &&
+					out.type != 'dns' &&
+					out.type != 'direct' &&
+					out.type != 'block' &&
+					out.type != 'urltest'
+			)
+			.map((out) => out.tag);
+
+		let outboundNonproxyTags = configJson.outbounds
+			.filter((out) => out.tag && (out.type == 'direct'))
+			.map((out) => out.tag);
+		let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
+		let autoIndex = configJson.outbounds.findIndex((out) => out.tag == 'auto');
+		let selectorIndex = configJson.outbounds.findIndex((out) => out.tag == 'selector-out');
+
+
+		if (autoIndex == -1) {
+			autoIndex = selectorIndex + 1; // The next position of selector.
+			patchContent.push({
+				op: 'add',
+				path: `/outbounds/${autoIndex}`,
+				value: { 
+					tag: 'auto',
+					type: 'urltest',
+					interval: "24h"
+				}
+			});
+			console.log('auto outbound not found');
+		}
+
+		patchContent.push({
+			op: 'replace',
+			path: `/outbounds/${autoIndex}/outbounds`,
+			value: outboundTags
+		});
+
+		refJsonEditor.patch(patchContent);
+	}
+
 	async function addDnsRule() {
 		let ipv46_regex =
 			/(?:^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$)|(?:^(?:(?:[a-fA-F\d]{1,4}:){7}(?:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,2}|:)|(?:[a-fA-F\d]{1,4}:){4}(?:(?::[a-fA-F\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,3}|:)|(?:[a-fA-F\d]{1,4}:){3}(?:(?::[a-fA-F\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,4}|:)|(?:[a-fA-F\d]{1,4}:){2}(?:(?::[a-fA-F\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,5}|:)|(?:[a-fA-F\d]{1,4}:){1}(?:(?::[a-fA-F\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,6}|:)|(?::(?:(?::[a-fA-F\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,7}|:)))(?:%[0-9a-zA-Z]{1,})?$)/gm;
