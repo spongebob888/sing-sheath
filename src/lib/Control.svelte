@@ -4,6 +4,7 @@
 	import Inbounds from './Inbounds.svelte';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
+	import { listen } from '@tauri-apps/api/event'
 
 	export let refJsonEditor;
 	export let tunModeValue;
@@ -11,6 +12,10 @@
 
 	let expandedOutboundsDep = 0;
 	let expandedInbounds = false;
+
+	const unlisten = listen<string>('openBoard',async (event) => {
+		openBoard();
+	});
 
 	async function start() {
 		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
