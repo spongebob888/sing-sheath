@@ -96,6 +96,11 @@
 	}
 </script>
 
-<SlideToggle on:change={handleChangeTunMode} bind:checked={tunModeValue} name="tun-toggle">
+<SlideToggle
+	on:change={handleChangeTunMode}
+	bind:checked={tunModeValue}
+	name="tun-toggle"
+	active="variant-filled-primary"
+>
 	Tun Mode
 </SlideToggle>

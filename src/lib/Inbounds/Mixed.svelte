@@ -86,6 +86,11 @@
 	}
 </script>
 
-<SlideToggle on:change={handleChangeMixed} bind:checked={mixedValue} name="mixed-toggle">
+<SlideToggle
+	on:change={handleChangeMixed}
+	bind:checked={mixedValue}
+	name="mixed-toggle"
+	active="variant-filled-primary"
+>
 	Mixed Mode
 </SlideToggle>
