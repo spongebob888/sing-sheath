@@ -22,7 +22,6 @@
 
 		await addAutoOutbounds();
 		await addSelectorOutbounds();
-		await addDnsRule();
 		let content = refJsonEditor.get();
 		await invoke('run_config', {
 			configStr: JSON.stringify(content.json, null, '\t')
