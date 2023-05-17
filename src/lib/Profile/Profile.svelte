@@ -1,0 +1,62 @@
+<script lang="ts">
+	import { popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import Autocomplete from './Autocomplete.svelte';
+	import { invoke } from '@tauri-apps/api/tauri';
+	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
+
+	let selectedProfile = '';
+	let profileList: Array<string> = [];
+
+	onMount(async () => {
+		selectedProfile = await getSelectedProfile();
+	});
+
+	let popupSettings: PopupSettings = {
+		event: 'focus-click',
+		target: 'popupAutocomplete',
+		placement: 'bottom',
+		state: async (e: Record<string, boolean>) => {
+			if (e.state) {
+				profileList = await getProfileList();
+			}
+		}
+	};
+	let inputKeyword = '';
+
+	async function getSelectedProfile() {
+		let profile = '';
+		await invoke('get_selected_profile')
+			.then((message: string) => {
+				profile = message;
+			})
+			.catch((error) => alert(error));
+		return profile;
+	}
+
+	async function getProfileList() {
+		let list: Array<string> = [];
+		await invoke('get_profile_list')
+			.then((message: Array<string>) => {
+				list = message;
+			})
+			.catch((error) => alert(error));
+		return list;
+	}
+</script>
+
+<div>
+	<input
+		class="input autocomplete w-24"
+		type="search"
+		name="demo"
+		bind:value={inputKeyword}
+		use:popup={popupSettings}
+		placeholder={selectedProfile}
+	/>
+
+	<div>
+		<Autocomplete bind:keyword={inputKeyword} bind:selectedProfile {profileList} />
+	</div>
+</div>

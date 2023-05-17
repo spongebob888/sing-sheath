@@ -2,6 +2,7 @@
 	import { invoke } from '@tauri-apps/api/tauri';
 	import Outbounds from './Outbounds.svelte';
 	import Inbounds from './Inbounds.svelte';
+	import Profile from './Profile/Profile.svelte';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import type { DrawerSettings } from '@skeletonlabs/skeleton';
 	import { listen } from '@tauri-apps/api/event'
@@ -254,6 +255,9 @@
 	<div style="margin: 8px 8px 8px 8px;">
 		<div>
 			<button on:click={openBoard} class="btn variant-filled"> board </button>
+		</div>
+		<div style="margin: 4px 4px 4px 4px;">
+			<Profile />
 		</div>
 	</div>
 </div>

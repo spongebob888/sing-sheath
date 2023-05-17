@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
 	import { JSONEditor } from 'svelte-jsoneditor';
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { onMount } from 'svelte';
+	import { listen } from '@tauri-apps/api/event';
 
 	let content = {
 		text: undefined, // can be used to pass a stringified JSON document instead
@@ -17,7 +18,16 @@
 	export function getContent() {
 		return content;
 	}
+
+	const unlisten = listen<string>('changeProfile',async (event) => {
+		await refreshConfig();
+	});
+
 	onMount(async () => {
+		await refreshConfig();
+	});
+
+	async function refreshConfig() {
 		await invoke('get_config')
 			.then((message) => {
 				content.json = JSON.parse(message);
@@ -25,8 +35,7 @@
 				checkInboundSwitch(content);
 			})
 			.catch((error) => alert(error));
-	});
-
+	}
 	function checkInboundSwitch(content) {
 		if (!content.json || !content.json.inbounds) {
 			mixedModeValue = false;
