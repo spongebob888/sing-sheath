@@ -5,11 +5,16 @@
 	import { invoke } from '@tauri-apps/api/tauri';
 	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { listen } from '@tauri-apps/api/event';
 
 	let selectedProfile = '';
 	let profileList: Array<string> = [];
 
 	onMount(async () => {
+		selectedProfile = await getSelectedProfile();
+	});
+
+	const unlisten = listen<string>('changeProfile',async (event) => {
 		selectedProfile = await getSelectedProfile();
 	});
 
