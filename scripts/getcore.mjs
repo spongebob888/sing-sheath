@@ -82,21 +82,12 @@ async function resolveSidecar(binInfo) {
 		await fs.rename(tempExe, sidecarPath);
 		console.log(`[INFO]: ${name} unzip finished`);
 	} else {
-		// gz
-		const readStream = fs.createReadStream(tempZip);
-		readStream
-			.pipe(
-				tar.x({
-					// Specify the destination folder for the extracted files
-					C: TEMP_DIR
-				})
-			)
-			.on('error', (err) => {
-				console.error('An error occurred while extracting the archive:', err);
-			})
-			.on('finish', () => {
-				console.log('Extraction completed successfully.');
-			});
+		tar.extract({
+			file: tempZip,
+			cwd: TEMP_DIR,
+			sync: true
+		   });
+		console.log("Extraction completed successfully.");
 		await fs.rename(tempExe, sidecarPath);
 	}
 
