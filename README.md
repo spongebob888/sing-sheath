@@ -32,6 +32,8 @@ Outbounds can be import from clipboard as outbound json or outbound json array.
 The core is at `sing-sword/sing/core`. If the
 directory doesn't exist. It will be created and a default sing-box core will be copied.
 
+Users can add their own sing-box core of any version to core directory.
+
 ## Profile
 You can select or create a profile by clicking the profile input button. By default
 the created profile will be the same as current profile.
