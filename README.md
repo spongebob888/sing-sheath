@@ -1,4 +1,6 @@
 # sing-sheath
+<a href="./README.zh_CN.md">zhongwen</a>|
+<a href="./README.md">English</a>
 
 A simple sing-box client that can't be simpler.
 
@@ -40,10 +42,10 @@ the created profile will be the same as current profile.
 
 ## How it works
 
-sing-sheath is basicly a sing-box backend with a json editor. And when you click restart, sing-sheath will generate appropriate dns rule and add a selector outbound.
+sing-sheath is basicly a sing-box backend with a json editor. And when you click restart, sing-sheath will add a selector outbound and a urltest outbound and save the json file.
 
 ## First time start
-At the first time start, it will creat sing-sword directory and copy default sing-box core there. Usually, after sing-box started, geodata will be downloaded automatically. But depending on internet connectivity and GFW behavior, it might fail and leave a empty geodata database file.
+At the first time start, it will create sing-sword directory and copy default sing-box core there. Usually, after sing-box started, geodata will be downloaded automatically. But depending on internet connectivity and GFW behavior, it might fail and leave a empty geodata database file.
 In this case, remove empty geodata and add a 
 reliable proxy for geodata downloading.
 
@@ -59,7 +61,7 @@ You should run as administrator.
 
 #### On Linux
 
-After first run. run the following command.
+After first run. run the following command（If failed, change * to your core name）.
 
 ```
 sudo setcap cap_net_bind_service,cap_net_admin=+ep ~/.config/sing-sword/sing/core/*
@@ -67,7 +69,7 @@ sudo setcap cap_net_bind_service,cap_net_admin=+ep ~/.config/sing-sword/sing/cor
 
 #### On MacOS
 
-After first run.
+After first run （If failed, change * to your core name）.
 
 ```
 sudo chown root:admin ~/.config/sing-sword/sing/core/*
