@@ -35,6 +35,7 @@
 		await invoke('get_selected_profile')
 			.then((message: string) => {
 				profile = message;
+				console.log(`get selected profile: ${profile}`)
 			})
 			.catch((error) => alert(error));
 		return profile;
@@ -45,6 +46,7 @@
 		await invoke('get_profile_list')
 			.then((message: Array<string>) => {
 				list = message;
+				console.log(`get profile list: ${list}`)
 			})
 			.catch((error) => alert(error));
 		return list;
