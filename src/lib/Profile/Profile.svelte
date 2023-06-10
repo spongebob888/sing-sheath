@@ -22,9 +22,13 @@
 		event: 'focus-click',
 		target: 'popupAutocomplete',
 		placement: 'bottom',
+		closeQuery: 'label',
 		state: async (e: Record<string, boolean>) => {
 			if (e.state) {
 				profileList = await getProfileList();
+			}
+			else {
+				inputKeyword = '';
 			}
 		}
 	};
@@ -55,8 +59,8 @@
 
 <div>
 	<input
-		class="input autocomplete w-24"
-		type="search"
+		class="input"
+		type="input"
 		name="demo"
 		bind:value={inputKeyword}
 		use:popup={popupSettings}
