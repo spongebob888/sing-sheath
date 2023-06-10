@@ -210,9 +210,16 @@
 			alert('empty clash_api port');
 			return;
 		}
+		let secret = configJson?.experimental?.clash_api?.secret;
+		if(secret==undefined){
+			secret = '';
+		}
 		const drawerSettings: DrawerSettings = {
 			id: 'clash-ui',
-			meta: { port: port }
+			meta: { 
+				port: port,
+				secret: secret
+			 }
 		};
 		console.log(drawerSettings);
 		drawerStore.open(drawerSettings);

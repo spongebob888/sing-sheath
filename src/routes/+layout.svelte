@@ -20,7 +20,7 @@
 		<object
 			title="clash-ui"
 			type="text/html"
-			data="http://localhost:33211/?host=127.0.0.1&port={$drawerStore.meta.port}#/proxies"
+			data="http://localhost:33211/?host=127.0.0.1&port={$drawerStore.meta.port}&secret={$drawerStore.meta.secret}#/proxies"
 			width="100%"
 			height="100%"
 			style="overflow:hidden;border:5px"
