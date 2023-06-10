@@ -31,7 +31,7 @@
 	function createAndChangeProfile(name: string) {}
 </script>
 
-<div data-popup="popupAutocomplete" class="card top space-y2">
+<div id="popupComp" data-popup="popupAutocomplete" class="card top space-y2">
 	{#each filteredList as profile, i}
 		<label class="flex items-center space-x-2">
 			<input
