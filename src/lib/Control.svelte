@@ -88,7 +88,16 @@
 		let outboundNonproxyTags = configJson.outbounds
 			.filter((out) => out.tag && out.type == 'direct')
 			.map((out) => out.tag);
-		let outboundTags = outboundProxyTags.concat(outboundNonproxyTags);
+		
+		let outboundTags;
+		if (Array.isArray(outboundProxyTags) && outboundProxyTags.length === 0) {
+			outboundTags = outboundNonproxyTags;
+		}
+		else {
+			outboundTags = outboundProxyTags;
+
+		}
+		
 		let autoIndex = configJson.outbounds.findIndex((out) => out.tag == 'auto');
 		let selectorIndex = configJson.outbounds.findIndex((out) => out.tag == 'selector-out');
 
