@@ -8,6 +8,7 @@
 	import { SHADOWSOCKS_OUTBOUND_TEMPLATE } from './shadowsocks.js';
 	import { TROJAN_OUTBOUND_TEMPLATE } from './trojan.js';
 	import { HYSTERIA_OUTBOUND_TEMPLATE } from './hysteria.js';
+	import { HYSTERIA2_OUTBOUND_TEMPLATE } from './hysteria2.js';
 	import { SHADOWTLS_OUTBOUND_TEMPLATE } from './shadowtls.js';
 	import { SOCKS_OUTBOUND_TEMPLATE } from './socks.js';
 	import { readOutboundFromClipboard } from './from_clipboard.js';
@@ -59,6 +60,9 @@
 	function newHysteriaOutbound() {
 		newOutbound(HYSTERIA_OUTBOUND_TEMPLATE);
 	}
+	function newHysteria2Outbound() {
+		newOutbound(HYSTERIA2_OUTBOUND_TEMPLATE);
+	}
 	function newTrojanOutbound() {
 		newOutbound(TROJAN_OUTBOUND_TEMPLATE);
 	}
@@ -108,6 +112,14 @@
 		>
 			Hysteria
 		</ListBoxItem>
+		<ListBoxItem
+			bind:group={comboValue}
+			name="medium"
+			value="Hysteria2"
+			on:click={newHysteria2Outbound}
+		>
+			Hysteria2
+		</ListBoxItem>		
 		<ListBoxItem bind:group={comboValue} name="medium" value="Trojan" on:click={newTrojanOutbound}>
 			Trojan
 		</ListBoxItem>

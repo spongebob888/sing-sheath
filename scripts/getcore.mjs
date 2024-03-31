@@ -17,7 +17,7 @@ const SIDECAR_HOST = execSync('rustc -vV')
 
 /* ======= clash ======= */
 const SING_BOX_URL_PREFIX = 'https://github.com/SagerNet/sing-box/releases/download/';
-const SING_BOX_VERSION = '1.3.0';
+const SING_BOX_VERSION = '1.8.10';
 
 const SING_BOX_MAP = {
 	'win32-x64': `sing-box-${SING_BOX_VERSION}-windows-amd64`,
