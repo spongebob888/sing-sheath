@@ -32,6 +32,7 @@
           webkitgtk
           nodejs_latest
           libayatana-appindicator
+          rustup
         ];
       in
       {
